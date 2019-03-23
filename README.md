@@ -1,4 +1,4 @@
-# a-13-c
+# SIMPLE ENCRYPTION AND DECRYPTION IN C .
 
 stay in touch ;
 result of Induction will be good .
