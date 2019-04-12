@@ -1,71 +1,159 @@
+// If u are in Linux then ignore the WARNING against gets() :
+
+
+
+
+
 #include<stdio.h>
-#include<string.h>
+
 #include<stdlib.h>
 
+#include<string.h>
+
+
+
 void encryption (void);
+
 void decryption (void);
 
-FILE *wfile, *rfile;
+
+
+FILE *wfile,*rfile;
+
+
 
 int main(){
-	int n;
-	printf("\n1. enryption\n2. decryption\n\n");
-	scanf("%d", &n);
-	if(n==1)
-		encryption();
-	else if(n==2)
-		decryption();
-	else
-		exit(0);
-	return 0;
+
+    int n;
+
+xy:
+
+    printf("enter choice\n\n");
+
+    printf("1. encryption\n2. decryption\n");
+
+    scanf("%d", &n);
+
+    if(n==1)
+
+        encryption();
+
+    else if(n==2)
+
+        decryption();
+
+    else{
+
+        printf("Wrong case \ntry again\n");
+
+        goto xy;
+
+    }
+
+return 0;
+
 }
+
+
 
 void encryption (void){
-	int i=0,asc,key;
-	int plen,flen;
-	char name[50],c,temp[200];
-	printf("file name\n");
-	scanf("%s", name);
-	wfile=fopen(name,"w");
-	fflush(stdin);
-	printf("enter encryption key\n");
-	scanf("%d", &key);
-	printf("enter password\n");
-	getchar();
-	while((c=getchar())!='\n'){
-		temp[i]=c;
-		++i;
-	}
-	flen=strlen(name);
-	plen=strlen(temp);
-	for(i=0;i<plen;i++){
-		asc=temp[i]+((plen+flen)+(i+1)+(2*(key/(i+1))));
-		putc(asc,wfile);
-	}
-	fclose(wfile);
-	fflush(stdin);
-	printf("encryption done\n");
+
+    char temp[200],pass[200],ch[50];
+
+    int i=0,fk,sk;
+
+    int plen;
+
+    printf("enter the file name\n");
+
+    scanf("%s",ch);
+
+    printf("enter first key (1 - 9)\n");
+
+    scanf("%d", &fk);
+
+    printf("enter the second key (1 - 9)\n");
+
+    scanf("%d", &sk);
+
+    wfile=fopen(ch,"w");
+
+    printf("enter your password\n");
+
+    fflush(stdin);
+
+    gets(temp);
+
+    fflush(stdin);
+
+    plen=strlen(temp);
+
+    for(i=0;i < plen;i++)
+
+        pass[i]=temp[i]+(2*(fk-i)-2*(sk-i));
+
+    for(i=0;i < plen;i++)
+
+        putc(pass[i],wfile);
+
+    fclose(wfile);
+
+    printf("successfully encrypted\n");
+
 }
 
+
+
 void decryption (void){
-	int i,asc,key;
-	int flen,plen;
-	char temp[200],name[50];
-	printf("file name\n");
-	scanf("%s", name);
-	printf("enter the key\n");
-	scanf("%d", &key);
-	fflush(stdin);
-	rfile=fopen(name,"r");
-	flen=strlen(name);
-	fgets(temp,200,rfile);
-	plen=strlen(temp);
-	printf("the password is down below\n");
-	for(i=0;i<plen;i++){
-		asc=temp[i]-((plen+flen)+(i+1)+(2*(key/(i+1))));
-		printf("%c",asc);
-	}
-	fclose(rfile);
-	fflush(stdin);
-	printf("\ndecryption done\n");
+
+    char ch[50],temp[200],pass[200];
+
+    int plen;
+
+    int i=0,fk,sk;
+
+    printf("enter the file name\n");
+
+    scanf("%s", ch);
+
+    fflush(stdin);
+
+    printf("enter the first key (1 - 9)\n");
+
+    scanf("%d", &fk);
+
+    printf("enter the second key (1 - 9)\n");
+
+    scanf("%d", &sk);
+
+    rfile=fopen(ch,"r");
+
+    fgets(temp,200,rfile);
+
+    plen=strlen(temp);
+
+    for(i=0;i < plen;i++){
+
+        pass[i]=temp[i]-(2*(fk-i)-2*(sk-i));
+
+        if(pass[i]=='\n' || '\0')
+
+         continue;
+
+        else
+
+         printf("%c",pass[i]);
+
+    }
+
+    printf("\nsuccessfully decrypted\n");
+
+    fclose(rfile);
+
+    fflush(stdin);
+
 }
+
+
+
+                                                                                                                          // algorithm by A 13 C 
